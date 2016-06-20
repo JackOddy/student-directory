@@ -1,3 +1,4 @@
+#puts the names of all students in the directory
 puts "The students of Villains Academy"
 puts "-------------"
 puts "Dr. Hannibal Lecter"
@@ -11,7 +12,7 @@ puts "Freddy Krueger"
 puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Norman Bates"
-
+#next will show how many there are enrolled
 print "Overall, we have "
-print 11
+print 11 #important to print and not put to stay on the same line
 puts " great students"
