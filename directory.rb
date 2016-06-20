@@ -1,21 +1,20 @@
+#names of all students in array
+students = [
+"Dr. Hannibal Lecter",
+"Darth Vader",
+"Nurse Ratched",
+"Michael Corleone",
+"Alex DeLarge",
+"The Wicked Witch of the West",
+"Terminator",
+"Freddy Krueger",
+"The Joker",
+"Joffrey Baratheon",
+"Norman Bates"]
 
-student_count = 11 #defines the variable with the number of students
-
-#puts the names of all students in the directory
 puts "The students of Villains Academy"
 puts "-------------"
-puts "Dr. Hannibal Lecter"
-puts "Darth Vader"
-puts "Nurse Ratched"
-puts "Michael Corleone"
-puts "Alex DeLarge"
-puts "The Wicked Witch of the West"
-puts "Terminator"
-puts "Freddy Krueger"
-puts "The Joker"
-puts "Joffrey Baratheon"
-puts "Norman Bates"
+#lists all the name of the students
+students.each { |name| puts name }
 #next will show how many there are enrolled
-print "Overall, we have "
-print student_count #important to print and not put to stay on the same line
-puts " great students"
+print "Overall, we have #{students.count} great students"
