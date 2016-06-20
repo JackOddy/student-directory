@@ -10,4 +10,4 @@ puts "Terminator"
 puts "Freddy Krueger"
 puts "The Joker"
 puts "Joffrey Baratheon"
-puts "Norman Bates
+puts "Norman Bates"
