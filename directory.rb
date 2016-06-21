@@ -33,6 +33,8 @@ def print_names roster   #lists all the name of the students
     roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
   end
 
+  roster = roster.select {|student| student[:name].length <= 12}
+
   roster.each.with_index(1) { |student, index| puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" }
 end
 
