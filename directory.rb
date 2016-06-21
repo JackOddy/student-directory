@@ -15,7 +15,11 @@ $months = {january:   1,
 
 def input_students
 #create an empty array for student data
-students = []
+students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
+              {name: "Jess", cohort: {month: :november, num: 11}, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]},
+              {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
+              {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
+              {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
 
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
