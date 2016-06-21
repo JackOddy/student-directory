@@ -95,7 +95,7 @@ def print_names roster   #lists all the name of the students
 end
 
 def print_header   #method to print out header
-  puts "The students of Breakers Academy".center(100,'.')
+  puts "The Students of Breakers Academy".center(100,'.')
   puts "-------------".center(100,'-')
 end
 
