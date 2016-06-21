@@ -23,7 +23,7 @@ students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/19
 
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  name = gets.chomp
+  name = gets.sub("\n",'')
 
   #recursively loops while name has a value to allow multiple entry
   while !name.empty? do #as .chomp removes the last enter, using it twice breaks loop as it will be nil
@@ -31,29 +31,29 @@ students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/19
     dob = gets.chomp.downcase
       until dob =~ /^[1-3][0-9]\/[0-9][0-9]\/[1-2][0-9][0-9][0-9]$/
         puts "Error. Invalid date of birth for #{name}. Enter correct date of birth."
-        dob = gets.chomp
+        dob = gets.sub("\n",'')
       end
 
     puts "Please enter a cohort for #{name}."
-    cohort = gets.chomp.downcase.to_sym
+    cohort = gets.sub("\n",'').downcase.to_sym
     cohort = :november if cohort.empty?
       until $months.include?(cohort)
         puts "Error. Please enter a valid month."
-        cohort = gets.chomp.downcase.to_sym
+        cohort = gets.sub("\n",'').downcase.to_sym
       end
 
 
     puts "Enter hobbies for #{name}, hit return after each one. Two returns to finish."
-    hobby = gets.chomp.downcase
+    hobby = gets.sub("\n",'').downcase
     hobbies = []
         while !hobby.empty? do
           hobbies << hobby.to_sym
-          hobby = gets.chomp.downcase
+          hobby = gets.sub("\n",'').downcase
         end
 
     students << { name: name, cohort: {month: cohort, num: $months[cohort]}, dob: dob, hobbies: hobbies } #adds hash with default data and name
     puts "Now we have #{students.count} students."  #states the updated number of student
-    name = gets.chomp.downcase   #either start loop again or break it here
+    name = gets.sub("\n",'').downcase   #either start loop again or break it here
   end
   #returns array of students as an array of hashes
   students
@@ -86,22 +86,20 @@ def print_names roster   #lists all the name of the students
 #set a number for list
     index = 1
 
-    while roster.any? do #will loop until roster is empty
-#now return and remove the first hash in the local array and puts its values
-      student = roster.shift
+   roster.each.with_index(1) do |student, index|
         print "#{index}. "
         print"#{student[:name]}".ljust(20,".")
         print"(#{student[:dob]})".center(20,".")
         print "cohort:"
         print "#{student[:cohort][:month]}\n"
-#add one to the index so the next time this block is run the number will have changed
-        index += 1
     end
 
 end
 
-def print_footer (names)  #will show how many there are enrolled
-    puts "Overall, we have #{names.count} great students"
+def print_footer(names)  #will show how many there are enrolled
+    print "\nOverall, we have #{names.to_a.count} great student"
+    print 's' unless names.count == 1
+    puts #
 end
 
 students = input_students
