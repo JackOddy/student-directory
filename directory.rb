@@ -113,7 +113,7 @@ loop do
 print_header
  puts "Menu".center(100,'~')
  puts "Please select an option".center(100,'-')
-  choices.each { |x| puts x.center(100,'.')}
+  choices.each { |x| puts ''.rjust(40,'.') + x.ljust(60,'.')}
   input = gets.sub("\n", '')
     if input == "1"
       print_names($students)
