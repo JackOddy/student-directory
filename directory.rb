@@ -1,16 +1,28 @@
 
 def input_students
 #create an empty array for student data
-students = []
+students = [  {name: "Jack", cohort: :november, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
+              {name: "Jess", cohort: :november, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]}
+           ]
 
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   name = gets.chomp
 
   #recursively loops while name has a value to allow multiple entry
-  while !name.empty? do
-    #as .chomp removes the last enter, using it twice breaks loop as it will be nil
-    students << { name: name, cohort: :november } #adds hash with default data and name
+  while !name.empty? do #as .chomp removes the last enter, using it twice breaks loop as it will be nil
+    puts "Please enter a date of birth (dd/mm/yyyy) for #{name}"
+    dob = gets.chomp
+    puts "Enter hobbies for #{name}, hit return after each one. Two returns to finish"
+    hobby = gets.chomp
+    hobbies = []
+
+        while !hobby.empty? do
+          hobbies << hobby.to_sym
+          hobby = gets.chomp
+        end
+
+    students << { name: name, cohort: :november, dob: dob, hobbies: hobbies } #adds hash with default data and name
     puts "Now we have #{students.count} students."  #states the updated number of student
     name = gets.chomp   #either start loop again or break it here
   end
@@ -20,8 +32,8 @@ students = []
 end
 
 def print_header   #method to print out header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(100,'.')
+  puts "-------------".center(100,'-')
 end
 
 def print_names roster   #lists all the name of the students
@@ -47,7 +59,10 @@ def print_names roster   #lists all the name of the students
     while roster.any? do #will loop until roster is empty
 #now return and remove the first hash in the local array and puts its values
       student = roster.shift
-        puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+        print "#{index}."
+        print"#{student[:name]}".ljust(20,".")
+        print"(#{student[:dob]})".center(20,".")
+        print "(#{student[:cohort]} cohort)\n".rjust(20,'.')
 #add one to the index so the next time this block is run the number will have changed
         index += 1
     end
