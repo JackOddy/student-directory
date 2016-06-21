@@ -25,6 +25,14 @@ def print_header   #method to print out header
 end
 
 def print_names roster   #lists all the name of the students
+  puts "What is the first letter of the name of the student you are looking for?"
+  puts "For full list hit return twice."
+  first_letter = gets.chomp
+
+  if !first_letter.empty?
+    roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
+  end
+
   roster.each.with_index(1) { |student, index| puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" }
 end
 
