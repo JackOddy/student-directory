@@ -1,10 +1,25 @@
-$months = [:january,:february,:march,:april,:may,:june,:july,:august,:september,:october,:november,:december]
+
+
+$months = {january:   1,
+           february:  2,
+           march:     3,
+           april:     4,
+           may:       5,
+           june:      6,
+           july:      7,
+           august:    8,
+           september: 9,
+           october:  10,
+           november: 11,
+           december: 12}
 
 def input_students
 #create an empty array for student data
-students = [  {name: "Jack", cohort: :november, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
-              {name: "Jess", cohort: :november, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]}
-           ]
+students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
+              {name: "Jess", cohort: {month: :november, num: 11}, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]},
+              {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
+              {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
+              {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
 
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -36,7 +51,7 @@ students = [  {name: "Jack", cohort: :november, dob: "08/04/1991", hobbies: [:sw
           hobby = gets.chomp.downcase
         end
 
-    students << { name: name, cohort: cohort, dob: dob, hobbies: hobbies } #adds hash with default data and name
+    students << { name: name, cohort: {month: cohort, num: $months[cohort]}, dob: dob, hobbies: hobbies } #adds hash with default data and name
     puts "Now we have #{students.count} students."  #states the updated number of student
     name = gets.chomp.downcase   #either start loop again or break it here
   end
@@ -65,7 +80,8 @@ def print_names roster   #lists all the name of the students
       roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
     end
 #now will remove student hashes with names longer than 12 char from local array
-  roster = roster.select {|student| student[:name].length <= 12}
+
+  roster.sort_by!{|student| student[:cohort][:num]}
 
 #set a number for list
     index = 1
@@ -77,7 +93,7 @@ def print_names roster   #lists all the name of the students
         print"#{student[:name]}".ljust(20,".")
         print"(#{student[:dob]})".center(20,".")
         print "cohort:"
-        print "#{student[:cohort]}\n"
+        print "#{student[:cohort][:month]}\n"
 #add one to the index so the next time this block is run the number will have changed
         index += 1
     end
