@@ -25,21 +25,37 @@ def print_header   #method to print out header
 end
 
 def print_names roster   #lists all the name of the students
-  puts "What is the first letter of the name of the student you are looking for?"
-  puts "For full list hit return twice."
-  first_letter = gets.chomp
 
-  if !first_letter.empty?
-    roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
+  while !roster
+    return "Error: There are no students to display."
   end
 
+    puts "What is the first letter of the name of the student you are looking for?"
+    puts "For full list hit return twice."
+    first_letter = gets.chomp
+
+    if !first_letter.empty?
+#will find all students with a first name beginning with first_letter unless
+      roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
+    end
+#now will remove student hashes with names longer than 12 char from local array
   roster = roster.select {|student| student[:name].length <= 12}
 
-  roster.each.with_index(1) { |student, index| puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)" }
+#set a number for list
+    index = 1
+
+    while roster.any? do #will loop until roster is empty
+#now return and remove the first hash in the local array and puts its values
+      student = roster.shift
+        puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort)"
+#add one to the index so the next time this block is run the number will have changed
+        index += 1
+    end
+
 end
 
 def print_footer (names)  #will show how many there are enrolled
-  puts "Overall, we have #{names.count} great students"
+    puts "Overall, we have #{names.count} great students"
 end
 
 students = input_students
