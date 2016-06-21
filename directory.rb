@@ -62,11 +62,6 @@ def input_students
 
 end
 
-def print_header   #method to print out header
-  puts "The students of Villains Academy".center(100,'.')
-  puts "-------------".center(100,'-')
-end
-
 def print_names roster   #lists all the name of the students
 
   if roster.empty?
@@ -97,6 +92,11 @@ def print_names roster   #lists all the name of the students
         print "#{student[:cohort][:month]}\n"
     end
 
+end
+
+def print_header   #method to print out header
+  puts "The students of Breakers Academy".center(100,'.')
+  puts "-------------".center(100,'-')
 end
 
 def print_footer  #will show how many there are enrolled
