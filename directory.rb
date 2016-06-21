@@ -13,13 +13,15 @@ $months = {january:   1,
            november: 11,
            december: 12}
 
+
+$students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
+               {name: "Jess", cohort: {month: :november, num: 11}, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]},
+               {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
+               {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
+               {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
+
 def input_students
 #create an empty array for student data
-students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
-              {name: "Jess", cohort: {month: :november, num: 11}, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]},
-              {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
-              {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
-              {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
 
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -51,12 +53,12 @@ students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/19
           hobby = gets.sub("\n",'').downcase
         end
 
-    students << { name: name, cohort: {month: cohort, num: $months[cohort]}, dob: dob, hobbies: hobbies } #adds hash with default data and name
-    puts "Now we have #{students.count} students."  #states the updated number of student
+    $students << { name: name, cohort: {month: cohort, num: $months[cohort]}, dob: dob, hobbies: hobbies } #adds hash with default data and name
+    puts "Now we have #{$students.count} students.\n Enter another Name to add another student or hit return to finish"  #states the updated number of student
     name = gets.sub("\n",'').downcase   #either start loop again or break it here
   end
   #returns array of students as an array of hashes
-  students
+  $students
 
 end
 
@@ -97,13 +99,35 @@ def print_names roster   #lists all the name of the students
 
 end
 
-def print_footer(names)  #will show how many there are enrolled
-    print "\nOverall, we have #{names.to_a.count} great student"
-    print 's' unless names.count == 1
+def print_footer  #will show how many there are enrolled
+    print "\nOverall, we have #{$students.count} great student"
+    print 's' unless $students.count == 1
     puts #
 end
 
-students = input_students
+
+def interactive_menu
+
+  choices = ["1. View Students", "2. Add Students", "3. Exit Program"]
+loop do
 print_header
-print_names(students)
-print_footer(students)
+ puts "Menu".center(100,'~')
+ puts "Please select an option".center(100,'-')
+  choices.each { |x| puts x.center(100,'.')}
+  input = gets.sub("\n", '')
+    if input == "1"
+      print_names($students)
+      print_footer
+    elsif input == "2"
+      input_students
+      print_footer
+    elsif input == '3'
+      return
+    else
+     puts "Error. Command not recognised."
+     end
+
+   end
+end
+
+interactive_menu
