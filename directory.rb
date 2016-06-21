@@ -67,7 +67,7 @@ end
 
 def print_names roster   #lists all the name of the students
 
-  while !roster
+  if !roster
     return "Error: There are no students to display."
   end
 
