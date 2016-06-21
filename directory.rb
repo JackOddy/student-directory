@@ -31,7 +31,7 @@ def input_students
   while !name.empty? do #as .chomp removes the last enter, using it twice breaks loop as it will be nil
     puts "Please enter a date of birth (dd/mm/yyyy) for #{name}."
     dob = gets.chomp.downcase
-      until dob =~ /^[1-3][0-9]\/[0-9][0-9]\/[1-2][0-9][0-9][0-9]$/
+      until dob =~ /^[0-3][0-9]\/[0-9][0-9]\/[1-2][0-9][0-9][0-9]$/
         puts "Error. Invalid date of birth for #{name}. Enter correct date of birth."
         dob = gets.sub("\n",'')
       end
