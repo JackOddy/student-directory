@@ -1,3 +1,4 @@
+$months = [:january,:february,:march,:april,:may,:june,:july,:august,:september,:october,:november,:december]
 
 def input_students
 #create an empty array for student data
@@ -11,20 +12,33 @@ students = [  {name: "Jack", cohort: :november, dob: "08/04/1991", hobbies: [:sw
 
   #recursively loops while name has a value to allow multiple entry
   while !name.empty? do #as .chomp removes the last enter, using it twice breaks loop as it will be nil
-    puts "Please enter a date of birth (dd/mm/yyyy) for #{name}"
-    dob = gets.chomp
-    puts "Enter hobbies for #{name}, hit return after each one. Two returns to finish"
-    hobby = gets.chomp
-    hobbies = []
+    puts "Please enter a date of birth (dd/mm/yyyy) for #{name}."
+    dob = gets.chomp.downcase
+      until dob =~ /^[1-3][0-9]\/[0-9][0-9]\/[1-2][0-9][0-9][0-9]$/
+        puts "Error. Invalid date of birth for #{name}. Enter correct date of birth."
+        dob = gets.chomp
+      end
 
+    puts "Please enter a cohort for #{name}."
+    cohort = gets.chomp.downcase.to_sym
+    cohort = :november if cohort.empty?
+      until $months.include?(cohort)
+        puts "Error. Please enter a valid month."
+        cohort = gets.chomp.downcase.to_sym
+      end
+
+
+    puts "Enter hobbies for #{name}, hit return after each one. Two returns to finish."
+    hobby = gets.chomp.downcase
+    hobbies = []
         while !hobby.empty? do
           hobbies << hobby.to_sym
-          hobby = gets.chomp
+          hobby = gets.chomp.downcase
         end
 
-    students << { name: name, cohort: :november, dob: dob, hobbies: hobbies } #adds hash with default data and name
+    students << { name: name, cohort: cohort, dob: dob, hobbies: hobbies } #adds hash with default data and name
     puts "Now we have #{students.count} students."  #states the updated number of student
-    name = gets.chomp   #either start loop again or break it here
+    name = gets.chomp.downcase   #either start loop again or break it here
   end
   #returns array of students as an array of hashes
   students
@@ -43,7 +57,7 @@ def print_names roster   #lists all the name of the students
   end
 
     puts "What is the first letter of the name of the student you are looking for?"
-    puts "For full list hit return twice."
+    puts "For full list hit return."
     first_letter = gets.chomp
 
     if !first_letter.empty?
@@ -59,10 +73,11 @@ def print_names roster   #lists all the name of the students
     while roster.any? do #will loop until roster is empty
 #now return and remove the first hash in the local array and puts its values
       student = roster.shift
-        print "#{index}."
+        print "#{index}. "
         print"#{student[:name]}".ljust(20,".")
         print"(#{student[:dob]})".center(20,".")
-        print "(#{student[:cohort]} cohort)\n".rjust(20,'.')
+        print "cohort:"
+        print "#{student[:cohort]}\n"
 #add one to the index so the next time this block is run the number will have changed
         index += 1
     end
