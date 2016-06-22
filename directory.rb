@@ -37,8 +37,6 @@ def set_current_file(filename)
     $current_file = filename unless filename == ''
 end
 
-
-
 def try_load_students
   filename = ARGV.first
   return load_students if !filename
@@ -147,7 +145,6 @@ def print_footer  #will show how many there are enrolled
     puts # move onto the next line
 end
 
-
 def print_menu
   choices = ["1. View Students", "2. Add Students", "3. Save Database",
              "4. Load Student Database", "9. Exit Program"] #array of options
@@ -182,7 +179,6 @@ def process(selection)
     puts "Error. Command not recognised"
   end
 end
-
 
 def interactive_menu
   loop do
