@@ -151,9 +151,11 @@ def process(selection)
   when "2"
     input_students
   when "3"
-    save_student
+    puts "What would you like to call the file? Hit return to use 'students.yml'"
+    save_student(STDIN.gets.chomp)
   when "4"
-    load_students
+    puts "Which file would you liek to load? Hit return to load 'students.yml'"
+    load_students(STDIN.gets.chomp)
   when "9"
     exit
   else
