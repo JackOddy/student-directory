@@ -40,9 +40,9 @@ def input_students
       end
 
     puts "Please enter a cohort for #{name}."
-    cohort = gets.sub("\n",'').downcase.to_sym #converts input to symbol
-    cohort = :november if cohort.empty? # hard coded default value for cohort
-      until $months.include?(cohort) #validates user input against $months
+    cohort = gets.sub("\n",'').downcase.to_sym    # converts input to symbol
+    cohort = :november if cohort.empty?           # hard coded default value for cohort
+      until $months.include?(cohort)              # validates user input against $months
         puts "Error. Please enter a valid month." # if false will loop again
         cohort = gets.sub("\n",'').downcase.to_sym
       end
@@ -114,7 +114,7 @@ end
 
 def interactive_menu
 
-  choices = ["1. View Students", "2. Add Students", "3. Exit Program"] #array of
+  choices = ["1. View Students", "2. Add Students", "9. Exit Program"] #array of
                                                                        #options
 loop do
 print_header
@@ -128,7 +128,7 @@ print_header
     elsif input == "2"               # unless exit is selected
       input_students                 # when if statement will
       print_footer                   # return nil to end the method
-    elsif input == '3'
+    elsif input == '9'
       return
     else
      puts "Error. Command not recognised."
