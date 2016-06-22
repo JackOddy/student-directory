@@ -33,7 +33,7 @@ def load_students(filename = '')
   puts "Loaded #{$students.count} students from #{$current_file}.".center(100)#loads students array of hashes
 end
 
-def set_current_file(filename)
+def set_current_file(filename) #sets global variable to current file for ref.
     $current_file = filename unless filename == ''
 end
 
