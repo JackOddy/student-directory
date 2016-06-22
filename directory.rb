@@ -118,7 +118,7 @@ def print_footer  #will show how many there are enrolled
 end
 
 def print_menu
-  choices = ["1. View Students", "2. Add Students", "3. Save Data", "4. Refresh Student Data", "9. Exit Program"] #array of
+  choices = ["1. View Students", "2. Add Students", "3. Save Database", "4. Load Student Database", "9. Exit Program"] #array of
   puts "Menu".center(100,'~')
   puts "Please select an option".center(100,'-')
   choices.each do |option|
