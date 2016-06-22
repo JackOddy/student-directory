@@ -21,6 +21,16 @@ $students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1
                {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
                {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
                {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
+def save_student
+   file = File.open("students.csv", "w")
+ $students.each do |student|
+   student_data = [student[:name], student[:cohort][:month], student[:cohort][:num],
+                    student[:dob], "@", student[:hobbies]]
+   csv_line = student_data.join(',')
+   file.puts csv_line
+  end
+  file.close
+end
 
 def input_students
 
@@ -62,12 +72,9 @@ def input_students
     puts "Enter another Name to add another student or hit return to finish".center(100)
     name = gets.sub("\n",'').downcase   #either start loop again or break it here
   end
-
-  $students
-
 end
 
-def print_names roster   #lists all the name of the students
+def print_students roster   #lists all the name of the students
 
   if roster.empty?
     puts "Error: There are no students to display."
@@ -100,6 +107,7 @@ def print_names roster   #lists all the name of the students
 
 end
 
+
 def print_header   #method to print out header
   puts "The Students of Breakers Academy".center(100,'.')
   puts "=".center(100,'=') # pretty
@@ -111,30 +119,42 @@ def print_footer  #will show how many there are enrolled
     puts # move onto the next line
 end
 
+def print_menu
+  choices = ["1. View Students", "2. Add Students", "3. Save Data", "9. Exit Program"] #array of
+  puts "Menu".center(100,'~')
+  puts "Please select an option".center(100,'-')
+  choices.each do |option|
+      puts ''.rjust(40,'.') + option.ljust(60,'.')
+  end
+end                                                                 #options
+
+def show_students
+  print_header
+  print_students($students)
+  print_footer
+end
+
+def process(selection)
+  case selection
+  when "1"
+    show_students
+  when "2"
+    input_students
+  when "3"
+    save_student
+  when "9"
+    exit
+  else
+    puts "Error. Command not recognised"
+  end
+end
+
 
 def interactive_menu
-
-  choices = ["1. View Students", "2. Add Students", "9. Exit Program"] #array of
-                                                                       #options
-loop do
-print_header
- puts "Menu".center(100,'~')
- puts "Please select an option".center(100,'-')
-  choices.each { |x| puts ''.rjust(40,'.') + x.ljust(60,'.')}
-  input = gets.sub("\n", '')
-    if input == "1"
-      print_names($students)         # will call specific method
-      print_footer                   # followed by a footer
-    elsif input == "2"               # unless exit is selected
-      input_students                 # when if statement will
-      print_footer                   # return nil to end the method
-    elsif input == '9'
-      return
-    else
-     puts "Error. Command not recognised."
-     end
-
-   end
+  loop do
+    print_menu
+    process(gets.chomp)
+  end
 end
 
 interactive_menu
