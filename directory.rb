@@ -27,7 +27,8 @@ end
 
 
 def load_students(filename = 'students.yml') #defaults to students.yml
-$students = YAML.load(File.read(filename)) #loads students array of hashes
+  $students = YAML.load(File.read(filename))
+  puts "Loaded #{$students.count} from #{filename}.".center(100)#loads students array of hashes
 end
 
 def try_load_students
@@ -35,7 +36,6 @@ def try_load_students
   return load_students if !filename
   if File.exist?(filename)
     load_students(filename)
-    puts "Loaded #{$students.count} from #{filename}.".center(100)
   else
     puts "Error. #{filename} does not exist!"
   end
@@ -172,5 +172,4 @@ def interactive_menu
 end
 
 try_load_students
-puts $students
 interactive_menu
