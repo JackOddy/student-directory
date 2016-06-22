@@ -1,4 +1,4 @@
-
+require "yaml"
 #global months variable for multiple methods to use
 $months = {january:   1,
            february:  2,
@@ -16,20 +16,18 @@ $months = {january:   1,
 # students variable is global as multiple methods need to access it
 # cohort value is a hash with num: key to allow them to be sorted by cohort when
 # displayed. Hobbies is an array of symbols for looking up hobbies in common.
-$students = [  {name: "Jack", cohort: {month: :november, num: 11}, dob: "08/04/1991", hobbies: [:swimming, :skiing, :eating]},
-               {name: "Jess", cohort: {month: :november, num: 11}, dob: "29/05/1992", hobbies: [:skiing, :running, :reading]},
-               {name: "Julie", cohort: {month: :january, num: 1}, dob: "11/06/1997", hobbies: [:cooking, :reading, :dancing]},
-               {name: "Oscar", cohort: {month: :june, num: 6}, dob: "06/07/1987", hobbies: [:running, :reading, :swimming]},
-               {name: "Oliver", cohort: {month: :june, num: 6}, dob: "01/03/1982", hobbies: [:running, :dancing, :gym]}]
+$students = []
+
+
 def save_student
-   file = File.open("students.csv", "w")
- $students.each do |student|
-   student_data = [student[:name], student[:cohort][:month], student[:cohort][:num],
-                    student[:dob], "@", student[:hobbies]]
-   csv_line = student_data.join(',')
-   file.puts csv_line
+  File.open('students.yml','w') do |f|
+    f.write($students.to_yaml)
   end
-  file.close
+end
+
+
+def load_students
+$students = YAML.load(File.read('students.yml'))
 end
 
 def input_students
@@ -83,11 +81,11 @@ def print_students roster   #lists all the name of the students
 
     puts "What is the first letter of the name of the student you are looking for?"
     puts "For full list hit return."
-    first_letter = gets.chomp
+    first_letter = gets.chomp.downcase
 
     if !first_letter.empty?
 #will select all students with a first name beginning with first_letter unless nil
-      roster = roster.select {|student| student[:name] =~ /^#{Regexp.quote(first_letter)}/ }
+      roster = roster.select {|student| student[:name].downcase =~ /^#{Regexp.quote(first_letter)}/ }
     end
 
 
@@ -99,7 +97,7 @@ def print_students roster   #lists all the name of the students
      # .with_index takes an argument to begin the index with and increments
      # each time. This will number each iteration accordingly.
         print "#{index}. "
-        print"#{student[:name]}".ljust(20,".")
+        print"#{student[:name].capitalize}".ljust(20,".")
         print"(#{student[:dob]})".center(20,".")
         print "cohort:"
         print "#{student[:cohort][:month]}\n"
@@ -120,7 +118,7 @@ def print_footer  #will show how many there are enrolled
 end
 
 def print_menu
-  choices = ["1. View Students", "2. Add Students", "3. Save Data", "9. Exit Program"] #array of
+  choices = ["1. View Students", "2. Add Students", "3. Save Data", "4. Refresh Student Data", "9. Exit Program"] #array of
   puts "Menu".center(100,'~')
   puts "Please select an option".center(100,'-')
   choices.each do |option|
@@ -142,6 +140,8 @@ def process(selection)
     input_students
   when "3"
     save_student
+  when "4"
+    load_students
   when "9"
     exit
   else
@@ -157,4 +157,6 @@ def interactive_menu
   end
 end
 
+load_students
+puts $students.inspect
 interactive_menu
