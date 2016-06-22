@@ -19,15 +19,26 @@ $months = {january:   1,
 $students = []
 
 
-def save_student
-  File.open('students.yml','w') do |f|
-    f.write($students.to_yaml)
+def save_student(filename = 'students.yml') #defaults to students.yml
+  File.open(filename,'w') do |f|
+    f.write($students.to_yaml) # saves the whole array of hashes as a yaml file
   end
 end
 
 
-def load_students
-$students = YAML.load(File.read('students.yml'))
+def load_students(filename = 'students.yml') #defaults to students.yml
+$students = YAML.load(File.read(filename)) #loads students array of hashes
+end
+
+def try_load_students
+  filename = ARGV.first
+  return load_students if !filename
+  if File.exist?(filename)
+    load_students(filename)
+    puts "Loaded #{$students.count} from #{filename}.".center(100)
+  else
+    puts "Error. #{filename} does not exist!"
+  end
 end
 
 def input_students
@@ -35,40 +46,40 @@ def input_students
 #starts by asking for name. two returns will set name to nil as \n is nil
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  name = gets.sub("\n",'')
+  name = STDIN.gets.chomp
 
   # loops while name has a value to allow multiple entry
   while !name.empty? do
     puts "Please enter a date of birth (dd/mm/yyyy) for #{name}."
-    dob = gets.chomp.downcase
+    dob = STDIN.gets.chomp.downcase
       until dob =~ /^[0-3][0-9]\/[0-1][0-9]\/[1-2][0-9][0-9][0-9]$/
                   #regex checks that numbers are valid and slashes are used.
         puts "Error. Invalid date of birth for #{name}. Enter correct date of birth."
-        dob = gets.sub("\n",'')
+        dob = STDIN.gets.chomp
       end
 
     puts "Please enter a cohort for #{name}."
-    cohort = gets.sub("\n",'').downcase.to_sym    # converts input to symbol
+    cohort = STDIN.gets.chomp.downcase.to_sym    # converts input to symbol
     cohort = :november if cohort.empty?           # hard coded default value for cohort
       until $months.include?(cohort)              # validates user input against $months
         puts "Error. Please enter a valid month." # if false will loop again
-        cohort = gets.sub("\n",'').downcase.to_sym
+        cohort = STDIN.gets.chomp.downcase.to_sym
       end
 
 
     puts "Enter hobbies for #{name}, hit return after each one. Two returns to finish."
-    hobby = gets.sub("\n",'').downcase
+    hobby = STDIN.gets.chomp.downcase
     hobbies = [] #creates an empty array to contain hobbies
         while !hobby.empty? do
           hobbies << hobby.to_sym # hobbies inherits input as a symbol
-          hobby = gets.sub("\n",'').downcase #loops till hobby is nil for multiple entries
+          hobby = STDIN.gets.chomp.downcase #loops till hobby is nil for multiple entries
         end
 
     $students << { name: name, cohort: {month: cohort, num: $months[cohort]}, dob: dob, hobbies: hobbies }
     # shovels the new hash compiled of previous user input into $students array
     puts "Now we have #{$students.count} students.".center(100,'.') # prints new total of students
     puts "Enter another Name to add another student or hit return to finish".center(100)
-    name = gets.sub("\n",'').downcase   #either start loop again or break it here
+    name = STDIN.gets.chomp.downcase   #either start loop again or break it here
   end
 end
 
@@ -81,7 +92,7 @@ def print_students roster   #lists all the name of the students
 
     puts "What is the first letter of the name of the student you are looking for?"
     puts "For full list hit return."
-    first_letter = gets.chomp.downcase
+    first_letter = STDIN.gets.chomp.downcase
 
     if !first_letter.empty?
 #will select all students with a first name beginning with first_letter unless nil
@@ -118,13 +129,14 @@ def print_footer  #will show how many there are enrolled
 end
 
 def print_menu
-  choices = ["1. View Students", "2. Add Students", "3. Save Database", "4. Load Student Database", "9. Exit Program"] #array of
+  choices = ["1. View Students", "2. Add Students", "3. Save Database",
+             "4. Load Student Database", "9. Exit Program"] #array of options
   puts "Menu".center(100,'~')
   puts "Please select an option".center(100,'-')
   choices.each do |option|
       puts ''.rjust(40,'.') + option.ljust(60,'.')
   end
-end                                                                 #options
+end
 
 def show_students
   print_header
@@ -153,10 +165,10 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
-load_students
-puts $students.inspect
+try_load_students
+puts $students
 interactive_menu
