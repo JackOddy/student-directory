@@ -22,7 +22,7 @@ $students = []
 
 def save_student(filename = '')
   set_current_file(filename)
-  File.open(filename,'w') do |f|
+  File.open($current_file,'w') do |f|
     f.write($students.to_yaml) # saves the whole array of hashes as a yaml file
   end
 end
@@ -34,7 +34,13 @@ def load_students(filename = '')
 end
 
 def set_current_file(filename) #sets global variable to current file for ref.
-    $current_file = filename unless filename == ''
+    unless filename == ''
+      until File.exist?(filename)
+        puts "Error. File name not recognised. Please enter a valid filename."
+        filename = STDIN.gets.chomp
+      end
+      $current_file = filename
+    end
 end
 
 def try_load_students
