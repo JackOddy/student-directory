@@ -171,7 +171,7 @@ def process(selection)
     puts "What would you like to call the file? Hit return to use '#{$current_file}'"
     save_student(STDIN.gets.chomp)
   when "4"
-    puts "Which file would you liek to load? Hit return to load '#{$current_file}'"
+    puts "Which file would you like to load? Hit return to load '#{$current_file}'"
     load_students(STDIN.gets.chomp)
   when "9"
     exit
